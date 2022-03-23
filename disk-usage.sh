@@ -22,6 +22,6 @@ then
 	df -ha 
 
 else
-	figlet -c -f Sub-Zero "RETARD ALERT ! ! !"| lolcat
+	echo "Invalid Input: Exiting Script"
 fi
 
