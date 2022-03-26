@@ -3,13 +3,14 @@ clear
 # Queries available packages and lists the number of lines
 pac=$(/usr/bin/pacman -Qu | wc -l)
 
+sudo pacman -Syy
 while [ $pac -ge 1 ]; 
 do
 echo "There are $pac Packages that need to be updated! Would you like to update now? y/n: " 
 read input 
 
 	if [ $input ==  y ]; then
-		sudo pacman -Syyu --noconfirm 
+		sudo pacman -Su --noconfirm 
 
 	elif [ $input == n ]; then
 		echo "Exiting Package Updater!"
