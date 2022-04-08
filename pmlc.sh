@@ -1,5 +1,10 @@
 #!/bin/bash
-# pmlc - Processor and Memory Log Creator
+#-pmlc---Processor and Memory Log Creator----------------------------#
+#--------------------------------------------------------------------#
+#-Creates-and-logs-memory-usage-and-cpu-usage-for-sys-admin-purposes-#
+#-Run-this-script-as-a-cronjob-for-maximum-power---------------------#
+#-Will-add-log-rotation-in-the-future,-be-patient-:3-----------------#
+#--------------------------------------------------------------------#
 date="$(date +'%H%M_%a')" # file name for the hour, minute, and the day of the week
 dir="$HOME/pmlc" # The directory where logs are stored
 memlog="$HOME/pmlc/mem" # memory log file
