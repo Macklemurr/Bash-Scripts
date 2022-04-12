@@ -1,5 +1,3 @@
-Simple overview of use/purpose.
-
 ## Description
 
 Easily update your package manager with this bash script
