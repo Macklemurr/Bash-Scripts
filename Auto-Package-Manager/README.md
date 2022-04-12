@@ -11,7 +11,6 @@ Easily update, maintain, and clean your package manager with this bash script
 
 ### Installing
 
-* You can put the script and the foo.sh in your $PATH
-* Or you can also make a symbolic link to your $PATH by doing this command:
-sudo ln -s $PWD/autopacman.sh $PATH
+* Download this folder to your Home Directory, then make a symbolic link of autopacman.sh to your $PATH: sudo ln -s $PWD/autopacman.sh $PATH
+* You should be able to run the script normally and it will auto-find the function file in your home directory
 
