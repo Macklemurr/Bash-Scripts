@@ -1,6 +1,6 @@
 ## Description
 
-Easily update, maintain, and clean the cache of your package manager with this bash script
+Easily update, maintain, and clean your package manager with this bash script
 
 ## Getting Started
 
