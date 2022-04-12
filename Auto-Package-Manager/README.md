@@ -12,5 +12,6 @@ Easily update your package manager with this bash script
 ### Installing
 
 * You can put the script and the foo.sh in your $PATH
-* Or you can also make a symbolic link to your $PATH, whatever floats your boat
+* Or you can also make a symbolic link to your $PATH by doing this command:
+sudo ln -s $PWD/autopacman.sh $PATH
 
