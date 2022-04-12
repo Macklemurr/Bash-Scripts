@@ -4,7 +4,7 @@
 #-For the best use of this script make a symbolic----#
 #-to your $PATH, for more info read the README.md----#
 #----------------------------------------------------#
-file="find $HOME 2> /dev/null | grep autopm.sh"
+file=$(find $HOME 2> /dev/null | grep autopm.sh)
 source $file
 clear
 echo -e "This script was made by Macklemurr on Github! :3\n"
