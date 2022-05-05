@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #----------------------------------------------------#
 #-----------Automated Package Manager----------------#
 #-For the best use of this script make a symbolic----#
@@ -9,7 +9,7 @@ source $file
 clear
 echo -e "This script was made by Macklemurr on Github! :3\n"
 echo -e "Please read the README.md for the best usage of this script\n"
-sleep 2
+sleep 1
 clear
 echo -e "Welcome to the Automated Package Manager\n"
 main_menu
