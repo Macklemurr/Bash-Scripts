@@ -12,8 +12,14 @@ sudo_check() {
 		fi
 	fi
 }
-while [ $(($#)) -eq 0 ] || [ $(($#)) -ge 6 ]; do  
+invalid_mod() {
+	case $3 in
+		* ) echo "Invalid Modifier: Please user 'adduser -h' for help" ; exit 1 ;;
+	esac	       
+}
+while [ $(($#)) -eq 0 ] || [ $(($#))  -ge 6 ]; do  
 	echo "Please use 'adduser -h' to see correct usage."
+	echo $?
 	exit 0
 done
 while [ "$(($#))" != 0 ] && [ "$(($#))" != 5 ]; do
@@ -21,19 +27,21 @@ while [ "$(($#))" != 0 ] && [ "$(($#))" != 5 ]; do
 	-U ) # User 
 		sudo_check ; 
 			if [ "$3" = --no-home ] || [ "$3" = -nh ];  then
-				sudo useradd -M "$2" ; 
+				sudo useradd -M "$2" ;
+			       	echo $? ;
 				echo "User $2 was created with no home directory" ; 
 				exit 0
 			elif [ "$3" = -d ] || [ "$3" = --delete ]; then 
 				sudo userdel "$2" ; 
+				echo $? ;
 				echo "$2 has been deleted" ; 
 				exit 0 
 			elif [ "$3" = -dh ] || [ "$3" = --delete-home ] ; then
-				sudo userdel -r "$2" ; 
-				echo "$2 has been deleted with their home directory" ; 
-				exit 0
-			fi	
-		sudo useradd -m "$2" ; echo "$2 was created with a home directory" ; exit 0 ;; 
+				sudo userdel -r "$2" 2> /dev/null ;  # if no mail spool present this hides the stdout but still removes it 
+				[ -z "$?" ] ; sudo rm -rf /home/"$2" ;  echo "cleaned up $2's files"; exit 0 
+				echo "Cleaned up $2's files!"; exit 0
+			fi 
+		sudo useradd -m "$2" ; echo $? ; echo "$2 was created with a home directory" ; exit 0 ;; 
 	-h ) # Help  
 		echo "Usage: adduser <option> <argument> <argument> <modifier>" ;
 		echo "---------------------------" ;
@@ -46,7 +54,7 @@ while [ "$(($#))" != 0 ] && [ "$(($#))" != 5 ]; do
 		echo "Modifiers:" ;
 		echo "----User-----" ;
 		echo "-U: -nh, --no-home: creates a user with no home directory" ;
-		echo "-U: -dh, --delete-home: deletes a user with their home directory" ;
+		echo "-U: -dh, --delete-home: deletes a user with their home directory and mail spool" ;
 		echo "-U: -d, --delete: deletes a user but retains their home directory"
 		echo "----Group----" ;
 		echo "-G: -e, --existing, adds an existing user to a group" ;
@@ -56,7 +64,7 @@ while [ "$(($#))" != 0 ] && [ "$(($#))" != 5 ]; do
 	-G )	# Group 
 		sudo_check ; 
 			if  [ "$4" = -e ] ; then
-				sudo groupmod -a $2 -G $3 ;
+				sudo groupmod -a "$2" -G "$3" ;
 			       	echo "$2 is added to group $3" ; exit 0		
 			elif  [ "$4" = -d ] ; then
 				sudo 
@@ -67,3 +75,4 @@ while [ "$(($#))" != 0 ] && [ "$(($#))" != 5 ]; do
 		sudo_check ; sudo passwd "$2" ; echo "$2's password has changed" ; exit 0 ;;
 	esac
 done
+
