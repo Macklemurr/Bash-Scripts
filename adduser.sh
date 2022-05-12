@@ -1,8 +1,24 @@
 #!/bin/sh
 #-Usage: adduser <option> <username> <group>
-#fun1 () {
-#
-#}
+help_page () {
+	echo "Usage: adduser <option> <argument> <argument> <modifier>" ;
+	echo "---------------------------" ;
+	echo "OPTIONS:" ;
+	echo "-U <username> <modifier>>: adds a user, by default a home directory is made" ;
+	echo "-G <username> <group>: Creates a user to a group" ;
+	echo "-P <username>: changes a user password" ;
+	echo "-id or --change-id <user id> <username>: changes an existing user's UID" ;
+	echo "---------------------------" ;
+	echo "Modifiers:" ;
+	echo "----User-----" ;
+	echo "-U: -nh, --no-home: creates a user with no home directory" ;
+	echo "-U: -rd, --recursive-delete: deletes a user with their home directory and mail spool" ;
+	echo "-U: -d, --delete: deletes a user but retains their home and mail spool directory"
+	echo "----Group----" ;
+	echo "-G: -e, --existing, adds an existing user to a group" ;
+	echo "-G: -d, --delete, de" ;
+	exit 0	
+}
 sudo_check() {
 	if [ "$(id -u)" -eq 0 ]; then
 		echo "You shall pass!"
@@ -34,33 +50,12 @@ while [ "$(($#))" != 0 ] && [ "$(($#))" != 5 ]; do
 			elif [ "$3" = -d ] || [ "$3" = --delete ]; then 
 				sudo userdel "$2" ; echo "$2 has been deleted" ; exit 0 
 			elif [ "$3" = -rd ] || [ "$3" = --recursive-delete ] ; then # Checks if directories associated with the user exist then deletes the directories and user	
-					[ ! -d /var/spool/mail/"$2" ] && echo "$2's mail spool was not found";  
-					[ ! -d /home/"$2" ] && echo "$2's home directory was not found"; 
-					[ -d /home/"$2" ] && sudo rm -rf /home/"$2" && echo "Deleted $2's home directory";
-					[ -d /var/spool/mail/"$2" ] && sudo rm -rf /var/spool/mail/"$2" && echo "Deleted $2's mail spool";
-				       	sudo userdel "$2" && echo "$2 was deleted"; echo "Deleting is complete exiting now"; 
+				sudo userdel -r "$2" && echo "$2 was deleted"; echo "Deleting is complete exiting now"; 
 				exit 0 # Return value is 0, everything was good! :3	
 			fi 
 		sudo useradd -m "$2" ; echo $? ; echo "$2 was created with a home directory" ; exit 0 ;; 
 	-h ) # Help  
-		echo "Usage: adduser <option> <argument> <argument> <modifier>" ;
-		echo "---------------------------" ;
-		echo "OPTIONS:" ;
-		echo "-U <username> <modifier>>: adds a user, by default a home directory is made" ;
-		echo "-G <username> <group>: Creates a user to a group" ;
-		echo "-P <username>: changes a user password" ;
-		echo "-id or --change-id <user id> <username>: changes an existing user's UID" ;
-		echo "---------------------------" ;
-		echo "Modifiers:" ;
-		echo "----User-----" ;
-		echo "-U: -nh, --no-home: creates a user with no home directory" ;
-		echo "-U: -rd, --recursive-delete: deletes a user with their home directory and mail spool" ;
-		echo "-U: -d, --delete: deletes a user but retains their home and mail spool directory"
-		echo "----Group----" ;
-		echo "-G: -e, --existing, adds an existing user to a group" ;
-		echo "-G: -d, --delete, de" ;
-		exit 0 
-		;;
+		help_page ;; 
 	-G )	# Group 
 		sudo_check ; 
 			if  [ "$4" = -e ] ; then
