@@ -46,14 +46,13 @@ while [ "$(($#))" != 0 ] && [ "$(($#))" != 5 ]; do
 	-U ) # User 
 		sudo_check ; 
 			if [ "$3" = --no-home ] || [ "$3" = -nh ];  then
-				sudo useradd -M "$2" ; echo "User $2 was created with no home directory" ; exit 0
+				sudo useradd -M "$2"; [ "$?" = 9 ] && exit 9 || echo "User $2 was created with no home directory"; exit 0
 			elif [ "$3" = -d ] || [ "$3" = --delete ]; then 
-				sudo userdel "$2" ; echo "$2 has been deleted" ; exit 0 
-			elif [ "$3" = -rd ] || [ "$3" = --recursive-delete ] ; then # Checks if directories associated with the user exist then deletes the directories and user	
-				sudo userdel -r "$2" && echo "$2 was deleted"; echo "Deleting is complete exiting now"; 
-				exit 0 # Return value is 0, everything was good! :3	
+				sudo userdel "$2"; [ "$?" = 6 ] && exit 6 || echo "$2 has been deleted :)"; exit 0
+			elif [ "$3" = -rd ] || [ "$3" = --recursive-delete ] ; then 	
+				sudo userdel -r "$2"; [ "$?" = 6 ] && exit 6 || echo "$2 was deleted"; exit 0
 			fi 
-		sudo useradd -m "$2" ; echo $? ; echo "$2 was created with a home directory" ; exit 0 ;; 
+		sudo useradd -m "$2"; [ "$?" = 9 ] && exit 6 || echo "$2 was created with a home directory" ; exit 0 ;; 
 	-h ) # Help  
 		help_page ;; 
 	-G )	# Group 
